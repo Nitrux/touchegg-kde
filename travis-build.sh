@@ -33,7 +33,10 @@ sed -i 's+Expose+Parachute+g' $touchegg_conf_file
 ls -l $touchegg_conf_file
 cat $touchegg_conf_file
 
-### Autostart TouchEgg in daemon mode
+### Autostart TouchEgg launchers
+
+touch etc/skel/xdg/autostart/touchegg-start-as-daemon.desktop
+touch etc/skel/xdg/autostart/touchegg.desktop
 
 >> etc/skel/xdg/autostart/touchegg-start-as-daemon.desktop printf "%s\n" \
 	'[Desktop Entry]' \
@@ -54,10 +57,6 @@ cat $touchegg_conf_file
 	'X-DBUS-Username=' \
 	'' 
 
-cat etc/skel/xdg/autostart/toucheg-start-as-a-daemon.desktop
-
-### Autostart TouchEgg in client mode
-
 >> etc/skel/xdg/autostart/touchegg.desktop printf "%s\n" \
 	'[Desktop Entry]' \
 	'Comment=' \
@@ -77,8 +76,7 @@ cat etc/skel/xdg/autostart/toucheg-start-as-a-daemon.desktop
 	'X-DBUS-Username=' \
 	'' 
 
-cat etc/skel/xdg/autostart/touchegg.desktop
-
+ls -l etc/skel/xdg/autostart/
 
 echo
 
