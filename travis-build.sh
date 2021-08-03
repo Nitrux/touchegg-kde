@@ -30,13 +30,13 @@ mkdir -p \
 touchegg_conf_file='etc/skel/.config/touchegg/touchegg.conf'
 
 sed -i 's+Expose+Parachute+g' $touchegg_conf_file
-ls -l $touchegg_conf_file
-cat $touchegg_conf_file
 
 ### Autostart TouchEgg launchers
 
-touch etc/skel/xdg/autostart/touchegg-start-as-daemon.desktop
-touch etc/skel/xdg/autostart/touchegg.desktop
+xdg_autostart_path='etc/skel/xdg/autostart'
+
+touch $xdg_autostart_path/touchegg-start-as-daemon.desktop
+touch $xdg_autostart_path/touchegg.desktop
 
 >> etc/skel/xdg/autostart/touchegg-start-as-daemon.desktop printf "%s\n" \
 	'[Desktop Entry]' \
@@ -74,9 +74,17 @@ touch etc/skel/xdg/autostart/touchegg.desktop
 	'X-DBUS-StartupType=' \
 	'X-DBUS-SubstitueUID=false' \
 	'X-DBUS-Username=' \
-	'' 
+	''
 
-ls -l etc/skel/xdg/autostart/
+### Check files.
+
+ls -l \
+	$touchegg_conf_file \
+	$xdg_autostart_path/*.desktop
+
+cat \
+	$touchegg_conf_file \
+	$xdg_autostart_path/*.desktop
 
 echo
 
