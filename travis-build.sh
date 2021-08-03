@@ -15,7 +15,7 @@ mk-build-deps -i -t "apt-get --yes" -r
 echo
 
 mkdir -p \
-        etc/skel/.config/touchegg
+        etc/skel/.config/touchegg \
 		etc/skel/xdg/autostart
 
 {
