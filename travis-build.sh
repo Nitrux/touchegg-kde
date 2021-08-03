@@ -31,7 +31,7 @@ touchegg_conf_file='etc/skel/.config/touchegg/touchegg.conf'
 
 sed -i 's+Expose+Parachute+g' $touchegg_conf_file
 
-### Autostart TouchEgg launchers
+### Add TouchEgg launchers to autostart
 
 xdg_autostart_path='etc/skel/xdg/autostart'
 
