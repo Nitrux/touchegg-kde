@@ -27,9 +27,11 @@ mkdir -p \
 	done
 }
 
-sed -i 's+Expose+Parachute+g' etc/skel/.config/touchegg/touchegg.conf
-ls -l etc/skel/.config/touchegg/touchegg.conf
-cat etc/skel/.config/touchegg/touchegg.conf
+touchegg_conf_file='etc/skel/.config/touchegg/touchegg.conf'
+
+sed -i 's+Expose+Parachute+g' $touchegg_conf_file
+ls -l $touchegg_conf_file
+cat $touchegg_conf_file
 
 ### Autostart TouchEgg in daemon mode
 
@@ -52,7 +54,7 @@ cat etc/skel/.config/touchegg/touchegg.conf
 	'X-DBUS-Username=' \
 	'' 
 
-cat etc/skel/xdg/autostart/touchegg.desktop
+cat etc/skel/xdg/autostart/toucheg-start-as-a-daemon.desktop
 
 ### Autostart TouchEgg in client mode
 
