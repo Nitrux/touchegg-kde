@@ -62,7 +62,7 @@ touch $xdg_autostart_path/touchegg.desktop
 	'GenericName=' \
 	'Icon=preferences-desktop' \
 	'MimeType=' \
-	'Name=touchegg' \
+	'Name=touchegg --client' \
 	'Path=' \
 	'StartupNotify=true' \
 	'Terminal=false' \
