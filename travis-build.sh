@@ -14,7 +14,8 @@ mk-build-deps -i -t "apt-get --yes" -r
 
 echo
 
-mkdir  etc/skel/.config/touchegg
+mkdir -p \
+        etc/skel/.config/touchegg
 
 {
 	printf "%s %s\n" \
