@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -x
-
 apt -qq update
 apt -qq -yy install equivs git
 
