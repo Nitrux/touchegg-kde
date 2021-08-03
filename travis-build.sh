@@ -16,6 +16,7 @@ echo
 
 mkdir -p \
         etc/skel/.config/touchegg
+		etc/skel/xdg/autostart
 
 {
 	printf "%s %s\n" \
@@ -26,10 +27,56 @@ mkdir -p \
 	done
 }
 
-echo
+sed -i 's+Expose+Parachute+g' etc/skel/.config/touchegg/touchegg.conf
+ls -l etc/skel/.config/touchegg/touchegg.conf
+cat etc/skel/.config/touchegg/touchegg.conf
 
-ls -l \
-     etc/skel/.config/touchegg/touchegg.conf
+### Autostart TouchEgg in daemon mode
+
+>> etc/skel/xdg/autostart/touchegg-start-as-daemon.desktop printf "%s\n" \
+	'[Desktop Entry]' \
+	'Comment=' \
+	'Exec=touchegg --daemon' \
+	'GenericName=' \
+	'Icon=preferences-desktop' \
+	'MimeType=' \
+	'Name=touchegg (daemon)' \
+	'Path=' \
+	'StartupNotify=true' \
+	'Terminal=false' \
+	'TerminalOptions=' \
+	'Type=Application' \
+	'X-DBUS-ServiceName=' \
+	'X-DBUS-StartupType=' \
+	'X-DBUS-SubstitueUID=false' \
+	'X-DBUS-Username=' \
+	'' 
+
+cat etc/skel/xdg/autostart/touchegg.desktop
+
+### Autostart TouchEgg in client mode
+
+>> etc/skel/xdg/autostart/touchegg.desktop printf "%s\n" \
+	'[Desktop Entry]' \
+	'Comment=' \
+	'Exec=touchegg' \
+	'GenericName=' \
+	'Icon=preferences-desktop' \
+	'MimeType=' \
+	'Name=touchegg' \
+	'Path=' \
+	'StartupNotify=true' \
+	'Terminal=false' \
+	'TerminalOptions=' \
+	'Type=Application' \
+	'X-DBUS-ServiceName=' \
+	'X-DBUS-StartupType=' \
+	'X-DBUS-SubstitueUID=false' \
+	'X-DBUS-Username=' \
+	'' 
+
+cat etc/skel/xdg/autostart/touchegg.desktop
+
 
 echo
 
