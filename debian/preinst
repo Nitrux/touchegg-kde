@@ -1,6 +1,3 @@
 #!/bin/bash
 
-rm -r \
-    /etc/xdg/autostart/touchegg.desktop
-
 exit 0

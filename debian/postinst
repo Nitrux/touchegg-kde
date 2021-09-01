@@ -1,3 +1,30 @@
 #!/bin/bash
 
+### Add TouchEgg launchers to autostart
+
+xdg_autostart_path='/etc/xdg/autostart'
+
+rm $xdg_autostart_path/touchegg.desktop
+
+touch $xdg_autostart_path/touchegg.desktop
+
+>> $xdg_autostart_path/touchegg.desktop printf "%s\n" \
+	'[Desktop Entry]' \
+	'Comment=' \
+	'Exec=touchegg' \
+	'GenericName=' \
+	'Icon=preferences-desktop' \
+	'MimeType=' \
+	'Name=touchegg-autostart' \
+	'Path=' \
+	'StartupNotify=true' \
+	'Terminal=false' \
+	'TerminalOptions=' \
+	'Type=Application' \
+	'X-DBUS-ServiceName=' \
+	'X-DBUS-StartupType=' \
+	'X-DBUS-SubstitueUID=false' \
+	'X-DBUS-Username=' \
+	''
+
 exit 0

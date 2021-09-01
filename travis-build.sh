@@ -29,40 +29,13 @@ touchegg_conf_file='etc/skel/.config/touchegg/touchegg.conf'
 
 sed -i 's+Expose+Parachute+g' $touchegg_conf_file
 
-### Add TouchEgg launchers to autostart
-
-xdg_autostart_path='etc/xdg/autostart'
-
-touch $xdg_autostart_path/touchegg.desktop
-
->> $xdg_autostart_path/touchegg.desktop printf "%s\n" \
-	'[Desktop Entry]' \
-	'Comment=' \
-	'Exec=touchegg' \
-	'GenericName=' \
-	'Icon=preferences-desktop' \
-	'MimeType=' \
-	'Name=touchegg-autostart' \
-	'Path=' \
-	'StartupNotify=true' \
-	'Terminal=false' \
-	'TerminalOptions=' \
-	'Type=Application' \
-	'X-DBUS-ServiceName=' \
-	'X-DBUS-StartupType=' \
-	'X-DBUS-SubstitueUID=false' \
-	'X-DBUS-Username=' \
-	''
-
 ### Check files.
 
 ls -l \
 	$touchegg_conf_file \
-	$xdg_autostart_path/*.desktop
 
 cat \
 	$touchegg_conf_file \
-	$xdg_autostart_path/*.desktop
 
 echo
 
