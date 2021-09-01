@@ -2,7 +2,7 @@
 
 set -x
 
-### Add TouchEgg launchers to autostart
+### Add TouchEgg launcher to autostart
 
 xdg_autostart_path='/etc/xdg/autostart'
 
