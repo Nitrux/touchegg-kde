@@ -11,7 +11,7 @@ touch $xdg_autostart_path/touchegg.desktop
 >> $xdg_autostart_path/touchegg.desktop printf "%s\n" \
 	'[Desktop Entry]' \
 	'Comment=' \
-	'Exec=touchegg' \
+	'Exec=touchegg-autostart' \
 	'GenericName=' \
 	'Icon=preferences-desktop' \
 	'MimeType=' \
