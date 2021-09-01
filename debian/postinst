@@ -1,10 +1,12 @@
 #!/bin/bash
 
+set -x
+
 ### Add TouchEgg launchers to autostart
 
 xdg_autostart_path='/etc/xdg/autostart'
 
-rm $xdg_autostart_path/touchegg.desktop
+rm $xdg_autostart_path/touchegg.desktop || true
 
 touch $xdg_autostart_path/touchegg.desktop
 
