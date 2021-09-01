@@ -14,7 +14,7 @@ echo
 
 mkdir -p \
         etc/skel/.config/touchegg \
-		etc/skel/xdg/autostart
+		etc/xdg/autostart
 
 {
 	printf "%s %s\n" \
@@ -31,11 +31,11 @@ sed -i 's+Expose+Parachute+g' $touchegg_conf_file
 
 ### Add TouchEgg launchers to autostart
 
-xdg_autostart_path='etc/skel/xdg/autostart'
+xdg_autostart_path='etc/xdg/autostart'
 
 touch $xdg_autostart_path/touchegg.desktop
 
->> etc/skel/xdg/autostart/touchegg.desktop printf "%s\n" \
+>> etc/xdg/autostart/touchegg.desktop printf "%s\n" \
 	'[Desktop Entry]' \
 	'Comment=' \
 	'Exec=touchegg' \
