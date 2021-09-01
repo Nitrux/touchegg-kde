@@ -35,7 +35,7 @@ xdg_autostart_path='etc/xdg/autostart'
 
 touch $xdg_autostart_path/touchegg.desktop
 
->> etc/xdg/autostart/touchegg.desktop printf "%s\n" \
+>> $xdg_autostart_path/touchegg.desktop printf "%s\n" \
 	'[Desktop Entry]' \
 	'Comment=' \
 	'Exec=touchegg' \
