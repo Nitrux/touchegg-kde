@@ -1,3 +1,9 @@
+touchegg-kde (0.0.8)  nitrux; urgency=medium
+
+  * Fix touchegg conf.
+
+ -- Uri Herrera <uri_herrera@nxos.org>  Thu, 05 Aug 2021 22:33:00 -0500
+
 touchegg-kde (0.0.7)  nitrux; urgency=medium
 
   * Update package.
