@@ -1,11 +1,9 @@
 #!/bin/bash
 
-apt -qq update
-apt -qq -yy install equivs git
+### Basic Packages
+apt -qq -yy install axel equivs git devscripts lintian --no-install-recommends
 
 ### Install Dependencies
-apt-get -qq --yes update
-apt-get -qq --yes install devscripts lintian axel
 mk-build-deps -i -t "apt-get --yes" -r
 
 ### Add configuration for TouchEgg
@@ -40,7 +38,8 @@ cat \
 echo
 
 ### Build Deb
-mkdir source
-mv ./* source/ # Hack for debuild
-cd source
 debuild -b -uc -us
+
+### Move Deb to current directory because debuild decided
+### that it was a GREAT IDEA TO PUT THE FILE ONE LEVEL ABOVE
+mv ../*.deb .
