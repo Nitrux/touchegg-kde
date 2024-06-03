@@ -1,6 +1,7 @@
 #!/bin/bash
 
 ### Basic Packages
+apt -qq update
 apt -qq -yy install axel equivs git devscripts lintian --no-install-recommends
 
 ### Install Dependencies
