@@ -1,7 +1,7 @@
 touchegg-kde (0.1.0)  nitrux; urgency=medium
 
   * Make the script use a log.
-  * Optimize the script.
+  * Improve touchegg-autostart by directly checking exit code, simplify loops, use error redirection, and variable naming consistency.
 
  -- Uri Herrera <uri_herrera@nxos.org>  Mon, 03 Jun 2024 03:55:00 -0500
 
