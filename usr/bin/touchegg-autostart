@@ -3,7 +3,7 @@
 #############################################################################################################################################################################
 #   The license used for this file and its contents is: BSD-3-Clause                                                                                                        #
 #                                                                                                                                                                           #
-#   Copyright <2024> <Uri Herrera <uri_herrera@nxos.org>>                                                                                                              #
+#   Copyright <2024> <Uri Herrera <uri_herrera@nxos.org>>                                                                                                                   #
 #                                                                                                                                                                           #
 #   Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:                          #
 #                                                                                                                                                                           #
@@ -27,34 +27,68 @@
 
 set -eu
 
+
+# -- Use a log.
+
+LOG_FILE="$HOME/.nx-touchegg-kde.log"
+MAX_LOG_SIZE=$((1024 * 1024))
+
+
+# -- Functions.
+
+log_message() {
+    if [ -f "$LOG_FILE" ] && [ "$(stat --format=%s "$LOG_FILE")" -ge "$MAX_LOG_SIZE" ]; then
+        mv "$LOG_FILE" "$LOG_FILE.bak"
+        echo "$(date +'%Y-%m-%d %H:%M:%S') - Log rotated. Previous log saved as .nx-touchegg-kde.log.bak" > "$LOG_FILE"
+    fi
+
+    echo "$(date +'%Y-%m-%d %H:%M:%S') - $1" >> "$LOG_FILE"
+}
+
+
 kill_touchegg() {
     if pgrep touchegg > /dev/null; then
+        log_message "Stopping touchegg process..."
         killall touchegg
+        log_message "touchegg process stopped."
+    else
+        log_message "No running touchegg process found."
     fi
 }
 
 start_touchegg() {
-    touchegg --daemon 2>&1 &
-    MAX_RETRIES=10
-    RETRY_COUNT=0
+    log_message "Starting touchegg in daemon mode..."
+    touchegg --daemon 2>>"$LOG_FILE" &
 
-    while [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
-        touchegg --client 2>&1
-        if [ $? -ne 0 ]; then
-            echo "touchegg --client crashed. Restarting... (Attempt $((RETRY_COUNT + 1))/$MAX_RETRIES)"
-            ((RETRY_COUNT++))
+    local max_retries=10
+    local retry_count=0
+
+    while (( retry_count < max_retries )); do
+        if ! touchegg --client 2>>"$LOG_FILE"; then
+            log_message "touchegg --client crashed. Restarting... (Attempt $((retry_count + 1))/$max_retries)"
+            ((retry_count++))
             sleep 1
         else
-            echo "touchegg --client exited normally."
+            log_message "touchegg --client exited normally."
             break
         fi
     done
 
-    if [ $RETRY_COUNT -ge $MAX_RETRIES ]; then
-        echo "touchegg --client crashed too many times. Exiting..."
+    if (( retry_count >= max_retries )); then
+        log_message "touchegg --client crashed too many times. Exiting..."
     fi
 }
 
-kill_touchegg
+main() {
+    kill_touchegg
+    start_touchegg
+}
 
-start_touchegg
+
+# -- Check if the process is running, kill it and start it.
+
+log_message "Script started."
+
+main
+
+log_message "Script completed."
