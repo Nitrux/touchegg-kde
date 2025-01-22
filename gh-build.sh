@@ -26,8 +26,6 @@ mkdir -p \
 
 touchegg_conf_file='etc/skel/.config/touchegg/touchegg.conf'
 
-sed -i 's+Expose+Overview+g' $touchegg_conf_file
-
 ### Check files.
 
 ls -l \
