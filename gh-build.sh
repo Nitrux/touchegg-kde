@@ -17,7 +17,7 @@ mkdir -p \
 
 {
 	printf "%s %s\n" \
-        touchegg.conf	"https://raw.githubusercontent.com/NayamAmarshe/ToucheggKDE/main/touchegg.conf"
+        touchegg.conf	"https://raw.githubusercontent.com/Nitrux/storage/refs/heads/master/Other/touchegg.conf"
 } | {
 	while read -r name url; do
 		axel -a -n 2 -q -k -U "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.72 Safari/537.36" "$url" -o etc/skel/.config/touchegg/$name
