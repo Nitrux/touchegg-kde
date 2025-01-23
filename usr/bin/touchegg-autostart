@@ -39,16 +39,17 @@ MAX_LOG_SIZE=$((1024 * 1024))
 log_message() {
     if [ -f "$LOG_FILE" ] && [ "$(stat --format=%s "$LOG_FILE")" -ge "$MAX_LOG_SIZE" ]; then
         mv "$LOG_FILE" "$LOG_FILE.bak"
-        echo "$(date +'%Y-%m-%d %H:%M:%S') - Log rotated. Previous log saved as .nx-touchegg-kde.log.bak" > "$LOG_FILE"
+        echo "$(date +'%Y-%m-%d %H:%M:%S') - Log rotated. Previous log saved as .nx-touchegg-monitor.log.bak" > "$LOG_FILE"
     fi
-
     echo "$(date +'%Y-%m-%d %H:%M:%S') - $1" >> "$LOG_FILE"
 }
 
-start_touchegg() {
-    log_message "Starting touchegg in daemon mode..."
+exec >>"$LOG_FILE" 2>&1
+
+start_touchegg_daemon() {
     if ! pgrep -x touchegg > /dev/null; then
-        touchegg --daemon 2>>"$LOG_FILE" &
+        log_message "Starting touchegg daemon..."
+        touchegg --daemon
         sleep 1
     fi
 
@@ -58,49 +59,35 @@ start_touchegg() {
         log_message "Failed to start touchegg daemon."
         return 1
     fi
+}
 
-    log_message "Starting touchegg client..."
-    local max_retries=10
-    local retry_count=0
-
-    while (( retry_count < max_retries )); do
+monitor_touchegg_client() {
+    log_message "Starting monitoring loop for touchegg client..."
+    while true; do
         if ! pgrep -f "touchegg --client" > /dev/null; then
+            log_message "touchegg client is not running. Restarting..."
             touchegg --client >>"$LOG_FILE" 2>&1 &
-            sleep 1
+            sleep 2
         fi
 
-        if pgrep -f "touchegg --client" > /dev/null; then
-            log_message "touchegg client is running."
-
-            sleep 3
-            if ! pgrep -f "touchegg --client" > /dev/null; then
-                log_message "touchegg client unexpectedly stopped. Retrying..."
-                ((retry_count++))
-                continue
-            fi
-            break
+        sleep 5
+        if ! pgrep -f "touchegg --client" > /dev/null; then
+            log_message "touchegg client crashed. Restarting..."
         else
-            log_message "touchegg client failed to start. Retrying... (Attempt $((retry_count + 1))/$max_retries)"
-            ((retry_count++))
+            log_message "touchegg client is running."
         fi
     done
-
-    if (( retry_count >= max_retries )); then
-        log_message "touchegg client crashed too many times. Exiting..."
-        return 1
-    fi
 }
 
 
 main() {
-    start_touchegg
+    start_touchegg_daemon
+    monitor_touchegg_client
 }
 
 
 # -- Check if the process is running, kill it and start it.
 
-log_message "Script started."
+log_message "touchegg-autostart is running."
 
 main
-
-log_message "Script completed."
