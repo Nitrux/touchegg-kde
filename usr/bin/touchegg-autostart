@@ -49,7 +49,7 @@ start_touchegg() {
     log_message "Starting touchegg in daemon mode..."
     if ! pgrep -x touchegg > /dev/null; then
         touchegg --daemon 2>>"$LOG_FILE" &
-        sleep 1 
+        sleep 1
     fi
 
     if pgrep -x touchegg > /dev/null; then
@@ -65,12 +65,19 @@ start_touchegg() {
 
     while (( retry_count < max_retries )); do
         if ! pgrep -f "touchegg --client" > /dev/null; then
-            touchegg --client 2>>"$LOG_FILE" &
+            touchegg --client >>"$LOG_FILE" 2>&1 &
             sleep 1
         fi
 
         if pgrep -f "touchegg --client" > /dev/null; then
             log_message "touchegg client is running."
+
+            sleep 3
+            if ! pgrep -f "touchegg --client" > /dev/null; then
+                log_message "touchegg client unexpectedly stopped. Retrying..."
+                ((retry_count++))
+                continue
+            fi
             break
         else
             log_message "touchegg client failed to start. Retrying... (Attempt $((retry_count + 1))/$max_retries)"
