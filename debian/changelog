@@ -1,9 +1,16 @@
+touchegg-kde (0.1.1)  nitrux; urgency=medium
+
+  * Remove kill_touchegg function and void unnecessary process termination.
+  * Include additional checks to ensure the touchegg daemon and client processes are operational.
+
+ -- Uri Herrera <uri_herrera@nxos.org>  Mon, 03 Jun 2024 18:53:00 -0500
+
 touchegg-kde (0.1.0)  nitrux; urgency=medium
 
   * Make the script use a log.
   * Improve touchegg-autostart by directly checking exit code, simplify loops, use error redirection, and variable naming consistency.
 
- -- Uri Herrera <uri_herrera@nxos.org>  Mon, 03 Jun 2024 03:55:00 -0500
+ -- Uri Herrera <uri_herrera@nxos.org>  Mon, 03 Jun 2024 13:31:00 -0500
 
 touchegg-kde (0.0.9)  nitrux; urgency=medium
 

@@ -45,42 +45,47 @@ log_message() {
     echo "$(date +'%Y-%m-%d %H:%M:%S') - $1" >> "$LOG_FILE"
 }
 
-
-kill_touchegg() {
-    if pgrep touchegg > /dev/null; then
-        log_message "Stopping touchegg process..."
-        killall touchegg
-        log_message "touchegg process stopped."
-    else
-        log_message "No running touchegg process found."
-    fi
-}
-
 start_touchegg() {
     log_message "Starting touchegg in daemon mode..."
-    touchegg --daemon 2>>"$LOG_FILE" &
+    if ! pgrep -x touchegg > /dev/null; then
+        touchegg --daemon 2>>"$LOG_FILE" &
+        sleep 1 
+    fi
 
+    if pgrep -x touchegg > /dev/null; then
+        log_message "touchegg daemon is running."
+    else
+        log_message "Failed to start touchegg daemon."
+        return 1
+    fi
+
+    log_message "Starting touchegg client..."
     local max_retries=10
     local retry_count=0
 
     while (( retry_count < max_retries )); do
-        if ! touchegg --client 2>>"$LOG_FILE"; then
-            log_message "touchegg --client crashed. Restarting... (Attempt $((retry_count + 1))/$max_retries)"
-            ((retry_count++))
+        if ! pgrep -f "touchegg --client" > /dev/null; then
+            touchegg --client 2>>"$LOG_FILE" &
             sleep 1
-        else
-            log_message "touchegg --client exited normally."
+        fi
+
+        if pgrep -f "touchegg --client" > /dev/null; then
+            log_message "touchegg client is running."
             break
+        else
+            log_message "touchegg client failed to start. Retrying... (Attempt $((retry_count + 1))/$max_retries)"
+            ((retry_count++))
         fi
     done
 
     if (( retry_count >= max_retries )); then
-        log_message "touchegg --client crashed too many times. Exiting..."
+        log_message "touchegg client crashed too many times. Exiting..."
+        return 1
     fi
 }
 
+
 main() {
-    kill_touchegg
     start_touchegg
 }
 
