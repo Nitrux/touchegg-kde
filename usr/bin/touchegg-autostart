@@ -44,12 +44,10 @@ log_message() {
     echo "$(date +'%Y-%m-%d %H:%M:%S') - $1" >> "$LOG_FILE"
 }
 
-exec >>"$LOG_FILE" 2>&1
-
 start_touchegg_daemon() {
     if ! pgrep -x touchegg > /dev/null; then
         log_message "Starting touchegg daemon..."
-        touchegg --daemon
+        touchegg --daemon >>"$LOG_FILE" 2>&1 &
         sleep 1
     fi
 
